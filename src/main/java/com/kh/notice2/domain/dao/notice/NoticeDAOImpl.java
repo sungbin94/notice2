@@ -62,15 +62,14 @@ public class NoticeDAOImpl implements NoticeDAO {
   @Override
   public int save(Notice notice) {
     StringBuffer sql = new StringBuffer();
-    sql.append("insert into notice(notice_id, title, content, write, Attachments, count, udate) ");
-    sql.append("values(notice_notice_id_seq.nextval,?,?,관리자,1,1,sysdate) ");
+    sql.append("insert into notice(notice_id, title, content, write, Attachments, count) ");
+    sql.append("values(?,?,?,'관리자',1,?) ");
 
     int result = jt.update(sql.toString(),
-              notice.getNoticeId(),
+    notice.getNoticeId(),
     notice.getTitle(),
     notice.getContent(),
-    notice.getWrite(),
-    notice.getAttachment());
+    notice.getCount());
     return result;
   }
 
@@ -116,7 +115,7 @@ public class NoticeDAOImpl implements NoticeDAO {
    */
   @Override
   public Long generatedNoticeId() {
-    String sql = "select notice_notice_id_seq.nextval form dual ";
+    String sql = "select notice_notice_id_seq.nextval from dual ";
     Long noticeId = jt.queryForObject(sql, Long.class);
     return noticeId;
   }
@@ -129,7 +128,7 @@ public class NoticeDAOImpl implements NoticeDAO {
    */
   @Override
   public int increaseViewCount(Long noticeId) {
-    String sql = " select count(*) form notice ";
+    String sql = " select count(*) from notice ";
     Integer cnt = jt.queryForObject(sql, Integer.class);
 
     return cnt;

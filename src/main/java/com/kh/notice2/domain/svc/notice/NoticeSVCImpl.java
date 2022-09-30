@@ -47,6 +47,7 @@ public class NoticeSVCImpl implements NoticeSVC {
   public Notice save(Notice notice) {
     Long generatedNoticeId = noticeDAO.generatedNoticeId();
     notice.setNoticeId(generatedNoticeId);
+
     noticeDAO.save(notice);
 
     return noticeDAO.read(generatedNoticeId).get();
